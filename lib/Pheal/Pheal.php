@@ -48,7 +48,7 @@ class Pheal
      *
      * @var string
      */
-    const VERSION = '2.3.4';
+    const VERSION = '2.3.5';
 
     /**
      * @var int
@@ -88,11 +88,12 @@ class Pheal
      * @param string $key the EVE apikey/vCode
      * @param string $scope to use, defaults to account. can be changed during runtime by modifying attribute "scope"
      */
-    public function __construct($userid = null, $key = null, $scope = 'account')
+    public function __construct($userid = null, $key = null, $scope = 'account', $accesstoken = null)
     {
         $this->userid = $userid;
         $this->key = $key;
         $this->scope = $scope;
+        $this->accesstoken = $accesstoken;
     }
 
     /**
@@ -217,6 +218,9 @@ class Pheal
         }
         if ($this->key) {
             $http_opts[($use_customkey ? 'vCode' : 'apikey')] = $this->key;
+        }
+        if ($this->accesstoken) {
+            $http_opts['accesstoken'] = $this->accesstoken;
         }
 
         // check access level if given (throws PhealAccessExpception if API call is not allowed)
